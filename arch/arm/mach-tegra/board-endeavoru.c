@@ -705,21 +705,21 @@ static struct platform_device *headset_devices_xe[] = {
 //	&htc_headset_microp,
 //	&htc_headset_pmic_xe,
 //	&htc_headset_one_wire,
-	&htc_headset_gpio,
+//	&htc_headset_gpio,
 //	&htc_headset_misc,
 	/* Please put the headset detection driver on the last */
 };
 
 static void headset_power(int hs_enable)
 {
-	pr_info("[HS_BOARD]hs_enable = %d\n", hs_enable);
-	aic3008_set_mic_bias(hs_enable);
+	//pr_info("[HS_BOARD]hs_enable = %d\n", hs_enable);
+	//aic3008_set_mic_bias(hs_enable);
 }
 
 static void headset_init(void)
 {
-	tegra_gpio_disable(TEGRA_GPIO_PY4);
-	tegra_gpio_disable(TEGRA_GPIO_PY5);
+//	tegra_gpio_disable(TEGRA_GPIO_PY4);
+//	tegra_gpio_disable(TEGRA_GPIO_PY5);
 }
 
 static void uart_tx_gpo(int mode)
@@ -810,17 +810,17 @@ static void __init uart_debug_init(void)
 	unsigned long rate;
 	struct clk *c;
 
-	/* UARTA is the debug port. */
-	pr_info("Selecting UARTA as the debug console\n");
-	endeavoru_uart_devices[0] = &debug_uarta_device;
+	/* UARTA is the debug port. We use UARTE (jack MIC) now */
+	pr_info("Selecting UARTE as the debug console\n");
+	endeavoru_uart_devices[0] = &debug_uarte_device;
 	debug_uart_port_base = ((struct plat_serial8250_port *)(
-			debug_uarta_device.dev.platform_data))->mapbase;
-	debug_uart_clk = clk_get_sys("serial8250.0", "uarta");
+			debug_uarte_device.dev.platform_data))->mapbase;
+	debug_uart_clk = clk_get_sys("serial8250.0", "uarte");
 
 	/* Clock enable for the debug channel */
 	if (!IS_ERR_OR_NULL(debug_uart_clk)) {
 		rate = ((struct plat_serial8250_port *)(
-			debug_uarta_device.dev.platform_data))->uartclk;
+			debug_uarte_device.dev.platform_data))->uartclk;
 		pr_info("The debug console clock name is %s\n",
 						debug_uart_clk->name);
 		c = tegra_get_clock_by_name("pll_p");
@@ -842,6 +842,11 @@ static void __init endeavoru_uart_init(void)
 	int i;
 	struct clk *c;
 	int board_id = htc_get_pcbid_info();
+
+    //Set UARTE_OE#
+    gpio_direction_output(TEGRA_GPIO_PZ0, 0);
+    gpio_set_value(TEGRA_GPIO_PZ0, 0);
+//    gpio_direction_output(TEGRA_GPIO_PY4, 0);
 
 	for (i = 0; i < ARRAY_SIZE(uart_parent_clk); ++i) {
 		c = tegra_get_clock_by_name(uart_parent_clk[i].name);
@@ -1917,7 +1922,7 @@ static void __init endeavoru_init(void)
 	endeavoru_uart_init();
 
 	platform_add_devices(endeavoru_devices, ARRAY_SIZE(endeavoru_devices));
-	platform_device_register(&htc_headset_mgr_xe);
+//	platform_device_register(&htc_headset_mgr_xe);
 
 	if (machine_is_endeavoru()) {
 		if ((board_id > PROJECT_PHASE_A) ||
