@@ -621,7 +621,7 @@ static struct platform_device tegra_rawchip_device = {
 /* HTC_HEADSET_GPIO Driver */
 static struct htc_headset_gpio_platform_data htc_headset_gpio_data = {
 	.hpin_gpio		= TEGRA_GPIO_PW2,
-	.key_gpio		= TEGRA_GPIO_PBB6,
+	.uart_gpio		= TEGRA_GPIO_PW2,
 	.key_enable_gpio	= 0,
 	.mic_select_gpio	= 0,
 };
@@ -688,7 +688,7 @@ static struct htc_headset_1wire_platform_data htc_headset_1wire_data = {
 	.tx_level_shift_en	= TEGRA_GPIO_PZ0,
 	.uart_sw		= 0,
 	.one_wire_remote	={0x7E, 0x7F, 0x7D, 0x7F, 0x7B, 0x7F},
-	.remote_press		= TEGRA_GPIO_PBB6,
+//	.remote_press		= TEGRA_GPIO_PBB6,
 	.onewire_tty_dev	= "/dev/ttyHS4",
 };
 
@@ -703,8 +703,8 @@ static struct platform_device htc_headset_one_wire = {
 /* HTC_HEADSET_MGR Driver */
 static struct platform_device *headset_devices_xe[] = {
 //	&htc_headset_microp,
-	&htc_headset_pmic_xe,
-	&htc_headset_one_wire,
+//	&htc_headset_pmic_xe,
+//	&htc_headset_one_wire,
 	&htc_headset_gpio,
 //	&htc_headset_misc,
 	/* Please put the headset detection driver on the last */
