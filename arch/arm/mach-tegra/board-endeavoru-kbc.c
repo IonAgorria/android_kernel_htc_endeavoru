@@ -48,9 +48,9 @@
 	}
 
 static struct gpio_keys_button endevoru_int_keys[] = {
-	[0] = GPIO_KEY(KEY_POWER, PU6, 1),
-	[1] = GPIO_KEY(KEY_VOLUMEUP, PS0, 0),
-	[2] = GPIO_KEY(KEY_VOLUMEDOWN, PW3, 0),
+	[0] = GPIO_KEY(KEY_ENTER, PU6, 1),
+	[1] = GPIO_KEY(KEY_UP, PS0, 0),
+	[2] = GPIO_KEY(KEY_DOWN, PW3, 0),
  };
 
 static struct gpio_keys_platform_data endevoru_int_keys_pdata = {
