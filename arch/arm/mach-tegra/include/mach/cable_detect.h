@@ -18,13 +18,13 @@
 #define TPS80032ADC_12BIT(x) ((x * 1250) >> 12) /* vref=1.2v, 12-bits resolution */
 
 #define CABLE_ERR(fmt, args...) \
-	printk(KERN_ERR "[CABLE:ERR] " fmt, ## args)
+	printk(KERN_ERR "[CABLE:E] " fmt, ## args)
 #define CABLE_WARNING(fmt, args...) \
-	printk(KERN_WARNING "[CABLE] " fmt, ## args)
+	printk(KERN_WARNING "[CABLE:W] " fmt, ## args)
 #define CABLE_INFO(fmt, args...) \
-	printk(KERN_INFO "[CABLE] " fmt, ## args)
+	printk(KERN_INFO "[CABLE:I] " fmt, ## args)
 #define CABLE_DEBUG(fmt, args...) \
-	printk(KERN_DEBUG "[CABLE] " fmt, ## args)
+	printk(KERN_INFO "[CABLE:D] " fmt, ## args)
 
 enum accessory_type {
 	CABLE_TYPE_UNKOWN = 0,

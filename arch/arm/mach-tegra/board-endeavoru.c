@@ -812,7 +812,7 @@ static void __init uart_debug_init(void)
 
 	/* UARTA is the debug port. We use UARTE (jack MIC) now */
 	pr_info("Selecting UARTE as the debug console\n");
-	endeavoru_uart_devices[0] = &debug_uarte_device;
+	endeavoru_uart_devices[4] = &debug_uarte_device;
 	debug_uart_port_base = ((struct plat_serial8250_port *)(
 			debug_uarte_device.dev.platform_data))->mapbase;
 	debug_uart_clk = clk_get_sys("serial8250.0", "uarte");
@@ -844,6 +844,7 @@ static void __init endeavoru_uart_init(void)
 	int board_id = htc_get_pcbid_info();
 
     //Set UARTE_OE#
+    gpio_request(TEGRA_GPIO_PZ0, "PZ0");
     gpio_direction_output(TEGRA_GPIO_PZ0, 0);
     gpio_set_value(TEGRA_GPIO_PZ0, 0);
 //    gpio_direction_output(TEGRA_GPIO_PY4, 0);
@@ -894,8 +895,9 @@ static void __init endeavoru_uart_init(void)
 */
 
 	/* Register low speed only if it is selected */
-	if (!is_tegra_debug_uartport_hs())
+//	if (!is_tegra_debug_uartport_hs())
 		uart_debug_init();
+
 
 	platform_add_devices(endeavoru_uart_devices,
 				ARRAY_SIZE(endeavoru_uart_devices));
