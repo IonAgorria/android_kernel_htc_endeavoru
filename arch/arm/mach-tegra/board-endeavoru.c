@@ -790,6 +790,7 @@ static struct platform_device *endeavoru_uart_devices[] __initdata = {
 	&tegra_uartc_device,
 	&tegra_uartd_device,
 	&tegra_uarte_device,
+    &debug_uarte_device,
 };
 
 static struct uart_clk_parent uart_parent_clk[] = {
@@ -812,9 +813,8 @@ static void __init uart_debug_init(void)
 
 	/* UARTA is the debug port. We use UARTE (jack MIC) now */
 	pr_info("Selecting UARTE as the debug console\n");
-	endeavoru_uart_devices[4] = &debug_uarte_device;
-	debug_uart_port_base = ((struct plat_serial8250_port *)(
-			debug_uarte_device.dev.platform_data))->mapbase;
+	//endeavoru_uart_devices[5] = &debug_uarte_device;
+	debug_uart_port_base = ((struct plat_serial8250_port *)(debug_uarte_device.dev.platform_data))->mapbase;
 	debug_uart_clk = clk_get_sys("serial8250.0", "uarte");
 
 	/* Clock enable for the debug channel */
