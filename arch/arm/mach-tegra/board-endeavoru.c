@@ -790,7 +790,11 @@ static struct platform_device *endeavoru_uart_devices[] __initdata = {
 	&tegra_uartc_device,
 	&tegra_uartd_device,
 	&tegra_uarte_device,
+#ifdef ENDEAVORU_UARTE
     &debug_uarte_device,
+#else
+    &debug_uarta_device,
+#endif
 };
 
 static struct uart_clk_parent uart_parent_clk[] = {
@@ -811,16 +815,26 @@ static void __init uart_debug_init(void)
 	unsigned long rate;
 	struct clk *c;
 
-	/* UARTA is the debug port. We use UARTE (jack MIC) now */
+	/* UARTA is the debug port, UARTE is available in jack mic */
+#ifdef ENDEAVORU_UARTE
 	pr_info("Selecting UARTE as the debug console\n");
-	//endeavoru_uart_devices[5] = &debug_uarte_device;
+	//endeavoru_uart_devices[4] = &debug_uarte_device;
 	debug_uart_port_base = ((struct plat_serial8250_port *)(debug_uarte_device.dev.platform_data))->mapbase;
 	debug_uart_clk = clk_get_sys("serial8250.0", "uarte");
+#else
+	pr_info("Selecting UARTA as the debug console\n");
+	//endeavoru_uart_devices[0] = &debug_uarta_device;
+	debug_uart_port_base = ((struct plat_serial8250_port *)(debug_uarta_device.dev.platform_data))->mapbase;
+	debug_uart_clk = clk_get_sys("serial8250.0", "uarta");
+#endif
 
 	/* Clock enable for the debug channel */
 	if (!IS_ERR_OR_NULL(debug_uart_clk)) {
-		rate = ((struct plat_serial8250_port *)(
-			debug_uarte_device.dev.platform_data))->uartclk;
+#ifdef ENDEAVORU_UARTE
+		rate = ((struct plat_serial8250_port *)(debug_uarte_device.dev.platform_data))->uartclk;
+#else
+		rate = ((struct plat_serial8250_port *)(debug_uarte_device.dev.platform_data))->uartclk;
+#endif
 		pr_info("The debug console clock name is %s\n",
 						debug_uart_clk->name);
 		c = tegra_get_clock_by_name("pll_p");
