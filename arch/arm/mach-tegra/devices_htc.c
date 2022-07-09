@@ -970,8 +970,13 @@ static struct cmd_reason_map
 	unsigned long reason;
 } _crmap[] = {
 	{ .cmd = "",           .reason = RESTART_REASON_REBOOT },
+	{ .cmd = "fastboot",   .reason = RESTART_REASON_BOOTLOADER },
 	{ .cmd = "bootloader", .reason = RESTART_REASON_BOOTLOADER },
+	{ .cmd = "htcbl",      .reason = RESTART_REASON_HTCBL },
+	{ .cmd = "hboot",      .reason = RESTART_REASON_HTCBL },
 	{ .cmd = "recovery",   .reason = RESTART_REASON_RECOVERY },
+	{ .cmd = "hardware",   .reason = RESTART_REASON_HARDWARE },
+	{ .cmd = "diag",       .reason = RESTART_REASON_DIAG },
 	{ .cmd = "eraseflash", .reason = RESTART_REASON_ERASE_FLASH },
 	{ .cmd = "offmode",    .reason = RESTART_REASON_OFFMODE },
 	{ .cmd = "poweroff",   .reason = RESTART_REASON_POWEROFF },
